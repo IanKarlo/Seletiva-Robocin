@@ -26,7 +26,7 @@ void printRobotInfo(const SSL_DetectionRobot & robot) {
         printf("ID=N/A ");
     }
     printf(" HEIGHT=%6.2f POS=<%9.2f,%9.2f> ",robot.height(),robot.x(),robot.y());
-    Outfile << std::to_string(id) + ", " + std::to_string(robot.x()) + ", " + std::to_string(robot.y());
+    OutFile << std::to_string(id) + ", " + std::to_string(robot.x()) + ", " + std::to_string(robot.y());
     if (robot.has_orientation()) {
         printf("ANGLE=%6.3f ",robot.orientation());
     } else {
