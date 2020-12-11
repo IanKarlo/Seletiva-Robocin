@@ -26,7 +26,7 @@ void printRobotInfo(const SSL_DetectionRobot & robot) {
         printf("ID=N/A ");
     }
     printf(" HEIGHT=%6.2f POS=<%9.2f,%9.2f> ",robot.height(),robot.x(),robot.y());
-    Outfile << std::to_string(id) + ', ' + std::to_string(robot.x()) + ', ' + std::to_string(robot.y());
+    Outfile << std::to_string(id) + ", " + std::to_string(robot.x()) + ", " + std::to_string(robot.y());
     if (robot.has_orientation()) {
         printf("ANGLE=%6.3f ",robot.orientation());
     } else {
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
                         printf("Z=N/A   ");
                     }
                     printf("RAW=<%8.2f,%8.2f>\n",ball.pixel_x(),ball.pixel_y());
-                    OutFile << "Ball, " + std::to_string(x) + std::to_string(y) << '\n';
+                    OutFile << "Ball, " + std::to_string(ball.pixel_x()) + std::to_string(ball.pixel_y()) << '\n';
                 }
 
                 //Blue robot info:
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
                 }
 
                 //Yellow robot info:
-                    OutFile << "Yellow robots" << '\n'
+                    OutFile << "Yellow robots" << '\n';
                 for (int i = 0; i < robots_yellow_n; i++) {
                     SSL_DetectionRobot robot = detection.robots_yellow(i);
                     printf("-Robot(Y) (%2d/%2d): ",i+1, robots_yellow_n);
