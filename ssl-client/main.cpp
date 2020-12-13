@@ -1,14 +1,14 @@
 //author  Renato Sousa, 2018
 #include <QtNetwork>
-#include <stdio.h>
-#include <fstream>
+//#include <stdio.h>
+#include "libs/RobotVector.h"
 #include "net/robocup_ssl_client.h"
 #include "net/grSim_client.h"
 #include "util/timer.h"
 
-#include "pb/messages_robocup_ssl_detection.pb.h"
-#include "pb/messages_robocup_ssl_geometry.pb.h"
-#include "pb/messages_robocup_ssl_wrapper.pb.h"
+// #include "pb/messages_robocup_ssl_detection.pb.h"
+// #include "pb/messages_robocup_ssl_geometry.pb.h"
+// #include "pb/messages_robocup_ssl_wrapper.pb.h"
 #include "pb/grSim_Packet.pb.h"
 #include "pb/grSim_Commands.pb.h"
 #include "pb/grSim_Replacement.pb.h"
@@ -41,9 +41,9 @@ int main(int argc, char *argv[]){
     RoboCupSSLClient client;
     client.open(true);
     SSL_WrapperPacket packet;
-
+    RobotVector blue;
+    RobotVector yellow;
     GrSim_Client grSim_client;
-
     long long int cnt = 0;
 
     while(true) {
@@ -77,29 +77,31 @@ int main(int argc, char *argv[]){
                         printf("Z=N/A   ");
                     }
                     printf("RAW=<%8.2f,%8.2f>\n",ball.pixel_x(),ball.pixel_y());
-                    OutFile << "Ball, " + std::to_string(ball.pixel_x()) + std::to_string(ball.pixel_y()) << '\n';
+                    OutFile << "Ball, " + std::to_string(ball.pixel_x()) + ", " + std::to_string(ball.pixel_y()) << '\n';
                 }
 
                 //Blue robot info:
-                    OutFile << "Blue robots" << '\n';
-                for (int i = 0; i < robots_blue_n; i++) {
-                    SSL_DetectionRobot robot = detection.robots_blue(i);
-                    printf("-Robot(B) (%2d/%2d): ",i+1, robots_blue_n);
-                    printRobotInfo(robot);
-                    if(robot.x() <= 0){
-                        grSim_client.sendCommand(1.0, i);
-                    }else{
-                        grSim_client.sendCommand(-1.0, i);
-                    }
-                }
+                OutFile << "Blue robots" << '\n';
+                blue.updateAll(detection);
+                // for (int i = 0; i < robots_blue_n; i++) {
+                //     SSL_DetectionRobot robot = detection.robots_blue(i);
+                //     printf("-Robot(B) (%2d/%2d): ",i+1, robots_blue_n);
+                //     printRobotInfo(robot);
+                //     if(robot.x() <= 0){
+                //         grSim_client.sendCommand(1.0, i);
+                //     }else{
+                //         grSim_client.sendCommand(-1.0, i);
+                //     }
+                // }
 
                 //Yellow robot info:
-                    OutFile << "Yellow robots" << '\n';
-                for (int i = 0; i < robots_yellow_n; i++) {
-                    SSL_DetectionRobot robot = detection.robots_yellow(i);
-                    printf("-Robot(Y) (%2d/%2d): ",i+1, robots_yellow_n);
-                    printRobotInfo(robot);
-                }
+                OutFile << "Yellow robots" << '\n';
+                yellow.updateAll(detection);
+                // for (int i = 0; i < robots_yellow_n; i++) {
+                //     SSL_DetectionRobot robot = detection.robots_yellow(i);
+                //     printf("-Robot(Y) (%2d/%2d): ",i+1, robots_yellow_n);
+                //     printRobotInfo(robot);
+                // }
 
             }
 
