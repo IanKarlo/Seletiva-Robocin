@@ -13,7 +13,7 @@ class RobotVector {
 
 class BallWrapper {
   private:
-    Ball ball;
+    Ball* ball;
     bool setted;
   public:
     BallWrapper();

@@ -28,8 +28,8 @@ int main(int argc, char *argv[]){
     RoboCupSSLClient client;
     client.open(true);
     SSL_WrapperPacket packet;
-    RobotVector blue = new RobotVector(0);
-    RobotVector yellow = new RobotVector(1);;
+    RobotVector blue(0);// = new RobotVector(0);
+    RobotVector yellow(1);// = new RobotVector(1);;
     BallWrapper ball();
     GrSim_Client grSim_client;
     long long int cnt = 0;

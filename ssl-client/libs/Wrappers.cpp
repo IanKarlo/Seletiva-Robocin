@@ -84,9 +84,9 @@ void BallWrapper::updateBall(SSL_DetectionFrame &detection) {
   } else {
     int cntBalls = detection.balls_size();
     if(cntBalls <= 0) {
-      ball.updateByVelocity();
+      (*ball).updateByVelocity();
     } else {
-      ball.update(detection);
+      (*ball).update(detection);
     }
   }
 }
