@@ -1,17 +1,5 @@
 //author  Renato Sousa, 2018
-#include <QtNetwork>
-//#include <stdio.h>
 #include "libs/RobotVector.h"
-#include "net/robocup_ssl_client.h"
-#include "net/grSim_client.h"
-#include "util/timer.h"
-
-// #include "pb/messages_robocup_ssl_detection.pb.h"
-// #include "pb/messages_robocup_ssl_geometry.pb.h"
-// #include "pb/messages_robocup_ssl_wrapper.pb.h"
-#include "pb/grSim_Packet.pb.h"
-#include "pb/grSim_Commands.pb.h"
-#include "pb/grSim_Replacement.pb.h"
 
 
 std::ofstream OutFile("respostas.txt");
@@ -63,8 +51,8 @@ int main(int argc, char *argv[]){
                 printf("Network Latency (assuming synched system clock) %7.3fms\n",(t_now-detection.t_sent())*1000.0);
                 printf("Total Latency   (assuming synched system clock) %7.3fms\n",(t_now-detection.t_capture())*1000.0);
                 int balls_n = detection.balls_size();
-                int robots_blue_n =  detection.robots_blue_size();
-                int robots_yellow_n =  detection.robots_yellow_size();
+                // int robots_blue_n =  detection.robots_blue_size();
+                // int robots_yellow_n =  detection.robots_yellow_size();
                 OutFile << "Frame " + std::to_string(cnt) << '\n';
                 cnt++;
                 //Ball info:
