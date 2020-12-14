@@ -19,4 +19,4 @@ class BallWrapper {
     BallWrapper();
     void updateBall(SSL_DetectionFrame &detection);
     void printAll(ofstream OutFile);
-}
+};

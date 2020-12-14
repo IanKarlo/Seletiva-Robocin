@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     SSL_WrapperPacket packet;
     RobotVector blue = new RobotVector(0);
     RobotVector yellow = new RobotVector(1);;
-    BallWrapper ball = new BallWrapper();
+    BallWrapper ball();
     GrSim_Client grSim_client;
     long long int cnt = 0;
 
