@@ -1,6 +1,5 @@
 //author  Renato Sousa, 2018
-#include "libs/RobotVector.h"
-
+#include "libs/Wrappers.h"
 
 std::ofstream OutFile("respostas.txt");
 
@@ -29,8 +28,9 @@ int main(int argc, char *argv[]){
     RoboCupSSLClient client;
     client.open(true);
     SSL_WrapperPacket packet;
-    RobotVector blue;
-    RobotVector yellow;
+    RobotVector blue = new RobotVector(0);
+    RobotVector yellow = new RobotVector(1);;
+    BallWrapper ball = new BallWrapper();
     GrSim_Client grSim_client;
     long long int cnt = 0;
 
@@ -56,21 +56,24 @@ int main(int argc, char *argv[]){
                 OutFile << "Frame " + std::to_string(cnt) << '\n';
                 cnt++;
                 //Ball info:
-                for (int i = 0; i < balls_n; i++) {
-                    SSL_DetectionBall ball = detection.balls(i);
-                    printf("-Ball (%2d/%2d): CONF=%4.2f POS=<%9.2f,%9.2f> ", i+1, balls_n, ball.confidence(),ball.x(),ball.y());
-                    if (ball.has_z()) {
-                        printf("Z=%7.2f ",ball.z());
-                    } else {
-                        printf("Z=N/A   ");
-                    }
-                    printf("RAW=<%8.2f,%8.2f>\n",ball.pixel_x(),ball.pixel_y());
-                    OutFile << "Ball, " + std::to_string(ball.pixel_x()) + ", " + std::to_string(ball.pixel_y()) << '\n';
-                }
+                ball.updateBall(detection);
+                ball.printAll(OutFile);
+                // for (int i = 0; i < balls_n; i++) {
+                //     SSL_DetectionBall ball = detection.balls(i);
+                //     printf("-Ball (%2d/%2d): CONF=%4.2f POS=<%9.2f,%9.2f> ", i+1, balls_n, ball.confidence(),ball.x(),ball.y());
+                //     if (ball.has_z()) {
+                //         printf("Z=%7.2f ",ball.z());
+                //     } else {
+                //         printf("Z=N/A   ");
+                //     }
+                //     printf("RAW=<%8.2f,%8.2f>\n",ball.pixel_x(),ball.pixel_y());
+                //     OutFile << "Ball, " + std::to_string(ball.pixel_x()) + ", " + std::to_string(ball.pixel_y()) << '\n';
+                // }
 
                 //Blue robot info:
                 OutFile << "Blue robots" << '\n';
                 blue.updateAll(detection);
+                blue.printAll(OutFile);
                 // for (int i = 0; i < robots_blue_n; i++) {
                 //     SSL_DetectionRobot robot = detection.robots_blue(i);
                 //     printf("-Robot(B) (%2d/%2d): ",i+1, robots_blue_n);
@@ -85,6 +88,7 @@ int main(int argc, char *argv[]){
                 //Yellow robot info:
                 OutFile << "Yellow robots" << '\n';
                 yellow.updateAll(detection);
+                yellow.printAll(OutFile);
                 // for (int i = 0; i < robots_yellow_n; i++) {
                 //     SSL_DetectionRobot robot = detection.robots_yellow(i);
                 //     printf("-Robot(Y) (%2d/%2d): ",i+1, robots_yellow_n);

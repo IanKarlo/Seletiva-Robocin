@@ -1,4 +1,8 @@
-#include "RobotVector.h"
+#include "Wrappers.h"
+
+/*********************************
+ * ---- RobotVector Methods ---- *
+ *********************************/
 
 RobotVector::RobotVector(bool color) {
   this->color = color;
@@ -15,13 +19,14 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
           for(int j = 0; j < robots.size(); j++) {
             if(robots[j].getID() == id) {
               robots[j].updateByValues(robot);
-              robots[j].setUpdate(true);
+              robots[j].setUpdated(true);
               break;
             }
           }
         } else {
           ids.insert(id);
-          robots.push_back(new Robot(robot));
+          Robot newRobot = new Robot(robot);
+          robots.push_back(newRobot);
         }
       }
     }   
@@ -35,13 +40,14 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
           for(int j = 0; j < robots.size(); j++) {
             if(robots[j].getID() == id) {
               robots[j].updateByValues(robot);
-              robots[j].setUpdate(true);
+              robots[j].setUpdated(true);
               break;
             }
           }
         } else {
           ids.insert(id);
-          robots.push_back(new Robot(robot));
+          Robot newRobot = new Robot(robot);
+          robots.push_back(newRobot);
         }
       }
     }
@@ -49,7 +55,7 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
   for (int i = 0; i < robots.size(); i++){
     if(robots[i].getUpdated() == false) {
       robots[i].updateByVelocity();
-      robots[i].setUpdate(true);
+      robots[i].setUpdated(true);
     }
   }
 }
@@ -57,6 +63,34 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
 void RobotVector::printAll(ofstream OutFile) {
   for(int i = 0; i < robots.size(); i++) {
     OutFile << std::to_string(robots[i].getID()) + ", " + std::to_string(robots[i].getX()) + ", " + std::to_string(robots[i].getY()) << '\n';
-    robots[i].setUpdate(false);
+    robots[i].setUpdated(false);
   }
+}
+
+/*********************************
+ * ---- BallWrapper Methods ---- *
+ *********************************/
+
+BallWrapper::BallWrapper() {
+  this->setted = false;
+}
+
+void BallWrapper::updateBall(SSL_DetectionFrame &detection) {
+  if(!this->setted) {
+    int cntBalls = detection.balls_size();
+    if(cntBalls <= 0) return;
+    ball = new Ball(detection.balls(0));
+    this->setted = true;
+  } else {
+    int cntBalls = detection.balls_size();
+    if(cntBalls <= 0) {
+      ball.updateByVelocity();
+    } else {
+      ball.update(detection);
+    }
+  }
+}
+
+void BallWrapper::printAll(ofstream OutFile) {
+  OutFile << "Ball, " + std::to_string(ball.getX()) + ", " + std::to_string(ball.getY()) << '\n';
 }
