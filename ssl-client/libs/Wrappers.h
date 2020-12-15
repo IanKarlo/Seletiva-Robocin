@@ -8,7 +8,7 @@ class RobotVector {
   public:
     RobotVector(bool color = 0);
     void updateAll(SSL_DetectionFrame &detection);
-    void printAll(ofstream OutFile);
+    void printAll(ofstream &OutFile);
 };
 
 class BallWrapper {
@@ -18,5 +18,5 @@ class BallWrapper {
   public:
     BallWrapper();
     void updateBall(SSL_DetectionFrame &detection);
-    void printAll(ofstream OutFile);
+    void printAll(ofstream &OutFile);
 };

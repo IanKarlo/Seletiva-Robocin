@@ -43,8 +43,8 @@ class Ball {
     double vy;
   
   public:
-    Ball(SSL_DetectionBall ball);
-    void update(SSL_DetectionFrame detection);
+    Ball(SSL_DetectionBall &ball);
+    void update(SSL_DetectionFrame &detection);
     void updateByVelocity();
     double getX();
     double getY();
