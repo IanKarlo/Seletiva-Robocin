@@ -3,7 +3,7 @@
 class RobotVector {
   private:
     std::vector<Robot> robots;
-    std::unordered_set<long long> ids;
+    std::unordered_set<int> ids;
     bool color; //0 -> Blue | 1 -> Yellow
   public:
     RobotVector(bool color = 0);
