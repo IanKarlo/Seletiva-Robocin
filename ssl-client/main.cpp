@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
     SSL_WrapperPacket packet;
     RobotVector blue(0);
     RobotVector yellow(1);
-    BallWrapper ball();
+    BallWrapper ball;
     GrSim_Client grSim_client;
     long long int cnt = 0;
 
@@ -24,22 +24,22 @@ int main(int argc, char *argv[]){
 
                 //Frame info:
 
-                OutFile << "Frame " + std::to_string(cnt) << '\n';
+                OutFile << "Frame " << std::to_string(cnt) << '\n';
                 cnt++;
 
                 //Ball info:
-                ball.updateBall(&detection);
-                ball.printAll(&OutFile);
+                ball.updateBall(detection);
+                ball.printAll(OutFile);
 
                 //Blue robot info:
                 OutFile << "Blue robots" << '\n';
-                blue.updateAll(&detection);
-                blue.printAll(&OutFile);
+                blue.updateAll(detection);
+                blue.printAll(OutFile);
 
                 //Yellow robot info:
                 OutFile << "Yellow robots" << '\n';
-                yellow.updateAll(&detection);
-                yellow.printAll(&OutFile);
+                yellow.updateAll(detection);
+                yellow.printAll(OutFile);
 
             }
         }
