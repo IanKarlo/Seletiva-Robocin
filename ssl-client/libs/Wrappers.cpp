@@ -54,7 +54,7 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
   }
   for (int i = 0; i < robots.size(); i++){
     if(robots[i].getUpdated() == false) {
-      //robots[i].updateByVelocity();
+      robots[i].updateByVelocity();
     } else {
       robots[i].setUpdated(false);
     }
