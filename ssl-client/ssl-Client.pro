@@ -8,6 +8,7 @@ QT += core
 QT += network
 
 SOURCES += main.cpp \
+    libs/*.cpp \
     pb/messages_robocup_ssl_wrapper.pb.cc \
     pb/messages_robocup_ssl_detection.pb.cc \
     pb/messages_robocup_ssl_geometry.pb.cc \
@@ -19,6 +20,7 @@ SOURCES += main.cpp \
     net/grSim_client.cpp
 
 HEADERS += pb/messages_robocup_ssl_wrapper.pb.h \
+    libs/*.h \
     pb/messages_robocup_ssl_detection.pb.h \
     pb/messages_robocup_ssl_geometry.pb.h \
     pb/grSim_Commands.pb.h \

@@ -110,8 +110,8 @@ void Robot::updateByVelocity() {
   Eigen::VectorXd y1(2);
   Eigen::VectorXd y2(2);
 
-  int predX = x + vx*DT;
-  int predY = y + vy*DT;
+  double predX = x + vx*DT;
+  double predY = y + vy*DT;
 
   y1 << predX, predY;
   y2 << predX, predY;
@@ -121,8 +121,8 @@ void Robot::updateByVelocity() {
 
   Eigen::VectorXd state = filter2->state();
 
-  newX = state[0];
-  newY = state[1];
+  double newX = state[0];
+  double newY = state[1];
 
   vx = newX - x;
   vy = newY - y;
@@ -229,8 +229,8 @@ void Ball::updateByVelocity() {
   Eigen::VectorXd y1(2);
   Eigen::VectorXd y2(2);
 
-  int predX = x + vx*DT;
-  int predY = y + vy*DT;
+  double predX = x + vx*DT;
+  double predY = y + vy*DT;
 
   y1 << predX, predY;
   y2 << predX, predY;
@@ -240,8 +240,8 @@ void Ball::updateByVelocity() {
 
   Eigen::VectorXd state = filter2->state();
 
-  newX = state[0];
-  newY = state[1];
+  double newX = state[0];
+  double newY = state[1];
 
   vx = newX - x;
   vy = newY - y;
