@@ -17,7 +17,7 @@ Robot::Robot(SSL_DetectionRobot &robot) {
   int n = 4, m = 2;
 
   Eigen::MatrixXd A(n, n); // System dynamics matrix
-  Eigen::MatrixXd C(n, m); // Output matrix
+  Eigen::MatrixXd C(n, n); // Output matrix
   Eigen::MatrixXd Q(n, n); // Process noise covariance
   Eigen::MatrixXd R(m, m); // Measurement noise covariance
   Eigen::MatrixXd P(n, n); // Estimate error covariance
@@ -25,7 +25,7 @@ Robot::Robot(SSL_DetectionRobot &robot) {
   A << 1, 0, DT, 0, 0, 1, 0, DT, 0, 0, 1, 0, 0, 0, 0, 1;
   Q << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
   R << 10, 0, 0, 10;
-  C << 1, 0, 0, 1, 0, 0, 0, 0;
+  C << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
   filter = new KalmanFilter(DT, A, C, Q, R, P);
@@ -81,11 +81,11 @@ void Robot::updateByValues(SSL_DetectionRobot &robot) {
     double newX = robot.x();
     double newY = robot.y();
 
-    Eigen::VectorXd y1(2);
-    Eigen::VectorXd y2(2);
+    Eigen::VectorXd y1(4);
+    Eigen::VectorXd y2(4);
 
-    y1 << newX, newY;
-    y2 << newX, newY;
+    y1 << newX, newY, vx, vy;
+    y2 << newX, newY, vx, vy;
 
     filter->update(y1);
     filter2->update(y2);
@@ -107,14 +107,14 @@ void Robot::updateByValues(SSL_DetectionRobot &robot) {
 
 void Robot::updateByVelocity() {
 
-  Eigen::VectorXd y1(2);
-  Eigen::VectorXd y2(2);
+  Eigen::VectorXd y1(4);
+  Eigen::VectorXd y2(4);
 
   double predX = x + vx*DT;
   double predY = y + vy*DT;
 
-  y1 << predX, predY;
-  y2 << predX, predY;
+  y1 << predX, predY, vx, vy;
+  y2 << predX, predY, vx, vy;
 
   filter->update(y1);
   filter2->update(y2);
@@ -150,7 +150,7 @@ Ball::Ball(SSL_DetectionBall &ball) {
   int n = 4, m = 2;
 
   Eigen::MatrixXd A(n, n); // System dynamics matrix
-  Eigen::MatrixXd C(n, m); // Output matrix
+  Eigen::MatrixXd C(n, n); // Output matrix
   Eigen::MatrixXd Q(n, n); // Process noise covariance
   Eigen::MatrixXd R(m, m); // Measurement noise covariance
   Eigen::MatrixXd P(n, n); // Estimate error covariance
@@ -158,7 +158,7 @@ Ball::Ball(SSL_DetectionBall &ball) {
   A << 1, 0, DT, 0, 0, 1, 0, DT, 0, 0, 1, 0, 0, 0, 0, 1;
   Q << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
   R << 10, 0, 0, 10;
-  C << 1, 0, 0, 1, 0, 0, 0, 0;
+  C << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
   filter = new KalmanFilter(DT, A, C, Q, R, P);
@@ -200,11 +200,11 @@ void Ball::update(SSL_DetectionFrame &detection) {
   newX /= cntBalls;
   newY /= cntBalls;
 
-  Eigen::VectorXd y1(2);
-  Eigen::VectorXd y2(2);
+  Eigen::VectorXd y1(4);
+  Eigen::VectorXd y2(4);
 
-  y1 << newX, newY;
-  y2 << newX, newY;
+  y1 << newX, newY, vx, vy;
+  y2 << newX, newY, vx, vy;
 
   filter->update(y1);
   filter2->update(y2);
@@ -226,14 +226,14 @@ void Ball::update(SSL_DetectionFrame &detection) {
 
 void Ball::updateByVelocity() {
 
-  Eigen::VectorXd y1(2);
-  Eigen::VectorXd y2(2);
+  Eigen::VectorXd y1(4);
+  Eigen::VectorXd y2(4);
 
   double predX = x + vx*DT;
   double predY = y + vy*DT;
 
-  y1 << predX, predY;
-  y2 << predX, predY;
+  y1 << predX, predY, vx, vy;
+  y2 << predX, predY, vx, vy;
 
   filter->update(y1);
   filter2->update(y2);
