@@ -81,13 +81,13 @@ void Robot::updateByValues(SSL_DetectionRobot &robot) {
     double newX = robot.x();
     double newY = robot.y();
 
-    Eigen::VectorXd y(2);
+    Eigen::VectorXd y1(2);
     Eigen::VectorXd y2(2);
 
-    y << newX, newY;
+    y1 << newX, newY;
     y2 << newX, newY;
 
-    filter->update(y);
+    filter->update(y1);
     filter2->update(y2);
 
     Eigen::VectorXd state = filter->state();
@@ -107,16 +107,16 @@ void Robot::updateByValues(SSL_DetectionRobot &robot) {
 
 void Robot::updateByVelocity() {
 
-  Eigen::VectorXd y(2);
+  Eigen::VectorXd y1(2);
   Eigen::VectorXd y2(2);
 
   int predX = x + vx*DT;
   int predY = y + vy*DT;
 
-  y << predX, predY;
+  y1 << predX, predY;
   y2 << predX, predY;
 
-  filter->update(y);
+  filter->update(y1);
   filter2->update(y2);
 
   Eigen::VectorXd state = filter2->state();
@@ -200,13 +200,13 @@ void Ball::update(SSL_DetectionFrame &detection) {
   newX /= cntBalls;
   newY /= cntBalls;
 
-  Eigen::VectorXd y(2);
+  Eigen::VectorXd y1(2);
   Eigen::VectorXd y2(2);
 
-  y << newX, newY;
+  y1 << newX, newY;
   y2 << newX, newY;
 
-  filter->update(y);
+  filter->update(y1);
   filter2->update(y2);
 
   Eigen::VectorXd state = filter->state();
@@ -226,16 +226,16 @@ void Ball::update(SSL_DetectionFrame &detection) {
 
 void Ball::updateByVelocity() {
 
-  Eigen::VectorXd y(2);
+  Eigen::VectorXd y1(2);
   Eigen::VectorXd y2(2);
 
   int predX = x + vx*DT;
   int predY = y + vy*DT;
 
-  y << predX, predY;
+  y1 << predX, predY;
   y2 << predX, predY;
 
-  filter->update(y);
+  filter->update(y1);
   filter2->update(y2);
 
   Eigen::VectorXd state = filter2->state();
