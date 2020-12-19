@@ -93,5 +93,5 @@ void BallWrapper::updateBall(SSL_DetectionFrame &detection) {
 }
 
 void BallWrapper::printAll(ofstream &OutFile) {
-  OutFile << "Ball, " + std::to_string(ball->getX()) + ", " + std::to_string(ball->getY()) + ", " + std::to_string(ball->.getVx()) + ", " + std::to_string(ball->.getVy()) << '\n';
+  OutFile << "Ball, " + std::to_string(ball->getX()) + ", " + std::to_string(ball->getY()) + ", " + std::to_string(ball->getVx()) + ", " + std::to_string(ball->getVy()) << '\n';
 }
