@@ -37,11 +37,11 @@ Robot::Robot(SSL_DetectionRobot &robot) {
   filter->init(0, x0);
 
   Eigen::MatrixXd Q2(n, n); // Process noise covariance
-  Eigen::MatrixXd R2(m, m); // Measurement noise covariance
+  Eigen::MatrixXd R2(n, n); // Measurement noise covariance
   Eigen::MatrixXd P2(n, n); // Estimate error covariance
 
   Q2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
-  R2 << 10, 0, 0, 10;
+  R2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
   P2 << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
 
   filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
@@ -152,7 +152,7 @@ Ball::Ball(SSL_DetectionBall &ball) {
   Eigen::MatrixXd A(n, n); // System dynamics matrix
   Eigen::MatrixXd C(n, n); // Output matrix
   Eigen::MatrixXd Q(n, n); // Process noise covariance
-  Eigen::MatrixXd R(n, no); // Measurement noise covariance
+  Eigen::MatrixXd R(n, n); // Measurement noise covariance
   Eigen::MatrixXd P(n, n); // Estimate error covariance
 
   A << 1, 0, DT, 0, 0, 1, 0, DT, 0, 0, 1, 0, 0, 0, 0, 1;
@@ -170,11 +170,11 @@ Ball::Ball(SSL_DetectionBall &ball) {
   filter->init(0, x0);
 
   Eigen::MatrixXd Q2(n, n); // Process noise covariance
-  Eigen::MatrixXd R2(m, m); // Measurement noise covariance
+  Eigen::MatrixXd R2(n, n); // Measurement noise covariance
   Eigen::MatrixXd P2(n, n); // Estimate error covariance
 
   Q2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
-  R2 << 10, 0, 0, 10;
+  R2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
   P2 << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
 
   filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
