@@ -19,12 +19,12 @@ Robot::Robot(SSL_DetectionRobot &robot) {
   Eigen::MatrixXd A(n, n); // System dynamics matrix
   Eigen::MatrixXd C(n, n); // Output matrix
   Eigen::MatrixXd Q(n, n); // Process noise covariance
-  Eigen::MatrixXd R(m, m); // Measurement noise covariance
+  Eigen::MatrixXd R(n, n); // Measurement noise covariance
   Eigen::MatrixXd P(n, n); // Estimate error covariance
 
   A << 1, 0, DT, 0, 0, 1, 0, DT, 0, 0, 1, 0, 0, 0, 0, 1;
   Q << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
-  R << 10, 0, 0, 10;
+  R << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
   C << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
@@ -152,12 +152,12 @@ Ball::Ball(SSL_DetectionBall &ball) {
   Eigen::MatrixXd A(n, n); // System dynamics matrix
   Eigen::MatrixXd C(n, n); // Output matrix
   Eigen::MatrixXd Q(n, n); // Process noise covariance
-  Eigen::MatrixXd R(m, m); // Measurement noise covariance
+  Eigen::MatrixXd R(n, no); // Measurement noise covariance
   Eigen::MatrixXd P(n, n); // Estimate error covariance
 
   A << 1, 0, DT, 0, 0, 1, 0, DT, 0, 0, 1, 0, 0, 0, 0, 1;
   Q << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
-  R << 10, 0, 0, 10;
+  R << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
   C << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
