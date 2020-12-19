@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "kalman.hpp"
+#include "kalman.h"
 
 KalmanFilter::KalmanFilter(
     double dt,

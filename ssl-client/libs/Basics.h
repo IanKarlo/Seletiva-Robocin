@@ -24,8 +24,8 @@ class Robot {
     double vy;
     bool updated;
     long long id;
-    KalmanFilter filter;
-    KalmanFilter filter2;
+    KalmanFilter* filter;
+    KalmanFilter* filter2;
 
   public:
     Robot(SSL_DetectionRobot &robot);
@@ -44,8 +44,8 @@ class Ball {
     double y;
     double vx;
     double vy;
-    KalmanFilter filter;
-    KalmanFilter filter2;
+    KalmanFilter* filter;
+    KalmanFilter* filter2;
   
   public:
     Ball(SSL_DetectionBall &ball);

@@ -28,13 +28,13 @@ Robot::Robot(SSL_DetectionRobot &robot) {
   C << 1, 0, 0, 1, 0, 0, 0, 0;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
-  filter = KalmanFilter(DT, A, C, Q, R, P);
+  filter = new KalmanFilter(DT, A, C, Q, R, P);
 
   Eigen::VectorXd x0(n);
 
   x0 << x, y, 0, 0;
 
-  filter.init(0, x0);
+  filter->init(0, x0);
 
   Eigen::MatrixXd Q2(n, n); // Process noise covariance
   Eigen::MatrixXd R2(m, m); // Measurement noise covariance
@@ -44,13 +44,13 @@ Robot::Robot(SSL_DetectionRobot &robot) {
   R2 << 10, 0, 0, 10;
   P2 << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
 
-  filter2 = KalmanFilter(DT, A, C, Q2, R2, P2);
+  filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
 
   Eigen::VectorXd x0(n);
 
   x0 << x, y, 0, 0;
 
-  filter2.init(0, x0);
+  filter2->init(0, x0);
 
   updated = true;
 
@@ -87,10 +87,10 @@ void Robot::updateByValues(SSL_DetectionRobot &robot) {
     y << newX, newY;
     y2 << newX, newY;
 
-    filter.update(y);
-    filter2.update(y2);
+    filter->update(y);
+    filter2->update(y2);
 
-    Eigen::VectorXd state = filter.state();
+    Eigen::VectorXd state = filter->state();
 
     newX = state[0];
     newY = state[1];
@@ -98,7 +98,7 @@ void Robot::updateByValues(SSL_DetectionRobot &robot) {
     vx = newX - x;
     vy = newY - y;
 
-    filter.updateVelocity(vx, vy);
+    filter->updateVelocity(vx, vy);
 
     x = newX;
     y = newY;
@@ -116,10 +116,10 @@ void Robot::updateByVelocity() {
   y << predX, predY;
   y2 << predX, predY;
 
-  filter.update(y);
-  filter2.update(y2);
+  filter->update(y);
+  filter2->update(y2);
 
-  Eigen::VectorXd state = filter2.state();
+  Eigen::VectorXd state = filter2->state();
 
   newX = state[0];
   newY = state[1];
@@ -127,7 +127,7 @@ void Robot::updateByVelocity() {
   vx = newX - x;
   vy = newY - y;
 
-  filter.updateVelocity(vx, vy);
+  filter->updateVelocity(vx, vy);
 
   x = newX;
   y = newY;
@@ -161,13 +161,13 @@ Ball::Ball(SSL_DetectionBall &ball) {
   C << 1, 0, 0, 1, 0, 0, 0, 0;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
-  filter = KalmanFilter(DT, A, C, Q, R, P);
+  filter = new KalmanFilter(DT, A, C, Q, R, P);
 
   Eigen::VectorXd x0(n);
 
   x0 << x, y, 0, 0;
 
-  filter.init(0, x0);
+  filter->init(0, x0);
 
   Eigen::MatrixXd Q2(n, n); // Process noise covariance
   Eigen::MatrixXd R2(m, m); // Measurement noise covariance
@@ -177,13 +177,13 @@ Ball::Ball(SSL_DetectionBall &ball) {
   R2 << 10, 0, 0, 10;
   P2 << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
 
-  filter2 = KalmanFilter(DT, A, C, Q2, R2, P2);
+  filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
 
   Eigen::VectorXd x0(n);
 
   x0 << x, y, 0, 0;
 
-  filter2.init(0, x0);
+  filter2->init(0, x0);
 
 }
 
@@ -206,10 +206,10 @@ void Ball::update(SSL_DetectionFrame &detection) {
   y << newX, newY;
   y2 << newX, newY;
 
-  filter.update(y);
-  filter2.update(y2);
+  filter->update(y);
+  filter2->update(y2);
 
-  Eigen::VectorXd state = filter.state();
+  Eigen::VectorXd state = filter->state();
 
   newX = state[0];
   newY = state[1];
@@ -217,7 +217,7 @@ void Ball::update(SSL_DetectionFrame &detection) {
   vx = newX - x;
   vy = newY - y;
 
-  filter.updateVelocity(vx, vy);
+  filter->updateVelocity(vx, vy);
 
   x = newX;
   y = newY;
@@ -235,10 +235,10 @@ void Ball::updateByVelocity() {
   y << predX, predY;
   y2 << predX, predY;
 
-  filter.update(y);
-  filter2.update(y2);
+  filter->update(y);
+  filter2->update(y2);
 
-  Eigen::VectorXd state = filter2.state();
+  Eigen::VectorXd state = filter2->state();
 
   newX = state[0];
   newY = state[1];
@@ -246,7 +246,7 @@ void Ball::updateByVelocity() {
   vx = newX - x;
   vy = newY - y;
 
-  filter.updateVelocity(vx, vy);
+  filter->updateVelocity(vx, vy);
 
   x = newX;
   y = newY;
