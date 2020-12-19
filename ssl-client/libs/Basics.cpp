@@ -46,7 +46,7 @@ Robot::Robot(SSL_DetectionRobot &robot) {
 
   filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
 
-  Eigen::VectorXd x0(n);
+  Eigen::VectorXd x02(n);
 
   x0 << x, y, 0, 0;
 
@@ -179,7 +179,7 @@ Ball::Ball(SSL_DetectionBall &ball) {
 
   filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
 
-  Eigen::VectorXd x0(n);
+  Eigen::VectorXd x02(n);
 
   x0 << x, y, 0, 0;
 
