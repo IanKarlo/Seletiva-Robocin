@@ -60,8 +60,16 @@ double Robot::getX() {
   return x;
 }
 
+double Robot::getVx() {
+  return vx;
+}
+
 double Robot::getY() {
   return y;
+}
+
+double Robot::getVy() {
+  return vy;
 }
 
 long long Robot::getID() {
@@ -257,6 +265,14 @@ double Ball::getX() {
   return x;
 }
 
+double Ball::getVx() {
+  return vx;
+}
+
 double Ball::getY() {
   return y;
+}
+
+double Ball::getVy() {
+  return vy;
 }

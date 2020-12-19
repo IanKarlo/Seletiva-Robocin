@@ -35,7 +35,9 @@ class Robot {
     void updateByValues(SSL_DetectionRobot &robot);
     void updateByVelocity();
     double getX();
+    double getVx();
     double getY();
+    double getVy();
 };
 
 class Ball {
@@ -52,5 +54,7 @@ class Ball {
     void update(SSL_DetectionFrame &detection);
     void updateByVelocity();
     double getX();
+    double getVx();
     double getY();
+    double getVy();
 };

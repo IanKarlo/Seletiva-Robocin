@@ -44,7 +44,7 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
               break;
             }
           }
-        } else {
+        } else if(ids.size() < 6){
           ids.insert(id);
           Robot newRobot = Robot(robot);
           robots.push_back(newRobot);
@@ -63,7 +63,7 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
 
 void RobotVector::printAll(ofstream &OutFile) {
   for(int i = 0; i < robots.size(); i++) {
-    OutFile << std::to_string(robots[i].getID()) + ", " + std::to_string(robots[i].getX()) + ", " + std::to_string(robots[i].getY()) << '\n';
+    OutFile << std::to_string(robots[i].getID()) + ", " + std::to_string(robots[i].getX()) + ", " + std::to_string(robots[i].getY()) + ", " + std::to_string(robots[i].getVx()) + ", " + std::to_string(robots[i].getVy()) << '\n';
   }
 }
 
@@ -93,5 +93,5 @@ void BallWrapper::updateBall(SSL_DetectionFrame &detection) {
 }
 
 void BallWrapper::printAll(ofstream &OutFile) {
-  OutFile << "Ball, " + std::to_string(ball->getX()) + ", " + std::to_string(ball->getY()) << '\n';
+  OutFile << "Ball, " + std::to_string(ball->getX()) + ", " + std::to_string(ball->getY()) + ", " + std::to_string(ball->.getVx()) + ", " + std::to_string(ball->.getVy()) << '\n';
 }
