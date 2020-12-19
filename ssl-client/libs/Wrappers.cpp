@@ -23,7 +23,7 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
               break;
             }
           }
-        } else {
+        } else if(ids.size() < 6) {
           ids.insert(id);
           Robot newRobot = Robot(robot);
           robots.push_back(newRobot);
