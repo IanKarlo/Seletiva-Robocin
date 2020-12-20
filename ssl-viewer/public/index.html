@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSL Viewer</title>
+  <link rel="icon" type="imagem/png" href="img/logo.png"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="./style/main.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="imgDiv">
+      <img src="img/logo.png" alt="logo.png">
+    </div>
+    <h1 class="title">SSL Viewer</h1>
+    <div class="input-field col s12">
+      <select>
+        <option value="" disabled selected>Escolha uma opção</option>
+        <option value="kalman">Filtro de Kalman</option>
+        <option value="variacao">Análise Cinemática</option>
+        <option value="padrao">Leitura sem Filtro</option>
+      </select>
+      <label>Abordagem</label>
+    </div>
+    <a id="start-btn" class="waves-effect waves-light btn-large">Iniciar Simulação <i class="material-icons">play_arrow</i></a>
+    <!-- <div class="selectDiv">
+      <select name="teste" id="selecao" onchange="myFunc(event)">
+        <option value="kalman">Filtro de Kalman</option>
+        <option value="variacao">Análise cinemática</option>
+        <option value="padrao">Leitura sem Filtro</option>
+      </select>
+    </div> -->
+    <!-- <div class="buttonDiv">
+      <button class="" id="enviar">Iniciar Simulação</button>
+    </div> -->
+  </div>
+  <main>
+  </main>
+  <hr class="divider"/>
+  <footer>
+    <div class="footer">
+      Made with <svg class="ico" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+      </svg> by Ian Torres
+    </div>
+  </footer>
+
+  <script src="./js/p5.min.js"></script>
+  <script src="./js/p5.sound.min.js"></script>
+  <script src="./js/sketch.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>

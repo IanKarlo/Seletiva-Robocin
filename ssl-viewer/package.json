@@ -1,0 +1,13 @@
+{
+  "name": "ssl-viewer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.1"
+  }
+}
