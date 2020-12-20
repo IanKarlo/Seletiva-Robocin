@@ -9,9 +9,9 @@ int main(int argc, char *argv[]){
     RoboCupSSLClient client;
     client.open(true);
     SSL_WrapperPacket packet;
-    RobotVector blue(0);
-    RobotVector yellow(1);
-    BallWrapper ball;
+    RobotVector blue(0); //Robôs azuis.
+    RobotVector yellow(1); //Robôs amarelos;
+    BallWrapper ball; //Bola.
     GrSim_Client grSim_client;
     long long int cnt = 0;
 

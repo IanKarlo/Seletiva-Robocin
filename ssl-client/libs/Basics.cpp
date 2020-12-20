@@ -5,6 +5,14 @@
     * ---- Robot Methods ---- *
  *********************************/
 
+/*
+  Instancia o robô de acordo com os dados do frame e inicializa os filtros de kalman
+  considerando que em um os dados recebidos são mais confiáveis que o modelo e no outro
+  que os dados do modelo são mais confiáveis que os recebidos. O conceito dos filtros é
+  que enquanto você recebe dados do frame, é possivel estimar a posição dos robôs com uma
+  certa confiança a partir dele, mas quando não recebe os dados, temos que dar mais confiança
+  ao modelo.
+*/
 Robot::Robot(SSL_DetectionRobot &robot) {
   id = robot.robot_id();
 
@@ -16,11 +24,11 @@ Robot::Robot(SSL_DetectionRobot &robot) {
 
   int n = 4, m = 2;
 
-  Eigen::MatrixXd A(n, n); // System dynamics matrix
-  Eigen::MatrixXd C(n, n); // Output matrix
-  Eigen::MatrixXd Q(n, n); // Process noise covariance
-  Eigen::MatrixXd R(n, n); // Measurement noise covariance
-  Eigen::MatrixXd P(n, n); // Estimate error covariance
+  Eigen::MatrixXd A(n, n); // Matriz representativa do sistema.
+  Eigen::MatrixXd C(n, n); // Matriz de saídas.
+  Eigen::MatrixXd Q(n, n); // Matriz de ruído do modelo.
+  Eigen::MatrixXd R(n, n); // Matriz de ruído da medição.
+  Eigen::MatrixXd P(n, n); // Matriz de covariância estimada no processo.
 
   A << 1, 0, DT, 0, 0, 1, 0, DT, 0, 0, 1, 0, 0, 0, 0, 1;
   Q << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
@@ -28,29 +36,29 @@ Robot::Robot(SSL_DetectionRobot &robot) {
   C << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
-  filter = new KalmanFilter(DT, A, C, Q, R, P);
+  filter = new KalmanFilter(DT, A, C, Q, R, P); //Filtro considerando que a medição é mais confiável que o modelo.
 
   Eigen::VectorXd x0(n);
 
   x0 << x, y, 0, 0;
 
-  filter->init(0, x0);
+  filter->init(0, x0); //Inicia o filtro com os valores iniciais.
 
-  Eigen::MatrixXd Q2(n, n); // Process noise covariance
-  Eigen::MatrixXd R2(n, n); // Measurement noise covariance
-  Eigen::MatrixXd P2(n, n); // Estimate error covariance
+  Eigen::MatrixXd Q2(n, n); // Matriz de ruído do modelo.
+  Eigen::MatrixXd R2(n, n); // Matriz de ruído da medição.
+  Eigen::MatrixXd P2(n, n); // Matriz de covariância estimada no processo.
 
   Q2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
   R2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
   P2 << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
 
-  filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
+  filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2); //Filtro considerando que o modelo é mais confiável que a medição.
 
   Eigen::VectorXd x02(n);
 
   x0 << x, y, 0, 0;
 
-  filter2->init(0, x0);
+  filter2->init(0, x0); //Inicia o filtro com os valores iniciais.
 
   updated = true;
 
@@ -84,6 +92,11 @@ void Robot::setUpdated(bool value) {
   updated = value;
 }
 
+/*
+  Atualiza ambos os filtros com os valores obtidos no frame, mas salva como valores de posição
+  do robo os valores gerados pelo filtro que considera a medição mais confiável que o modelo.
+*/
+
 void Robot::updateByValues(SSL_DetectionRobot &robot) {
 
     double newX = robot.x();
@@ -112,6 +125,11 @@ void Robot::updateByValues(SSL_DetectionRobot &robot) {
     y = newY;
 
 }
+
+/*
+  Atualiza ambos os filtros com os valores obtidos no frame, mas salva como valores de posição
+  do robo os valores gerados pelo filtro que considera o modelo mais confiável que a medição.
+*/
 
 void Robot::updateByVelocity() {
 
@@ -157,11 +175,11 @@ Ball::Ball(SSL_DetectionBall &ball) {
 
   int n = 4, m = 2;
 
-  Eigen::MatrixXd A(n, n); // System dynamics matrix
-  Eigen::MatrixXd C(n, n); // Output matrix
-  Eigen::MatrixXd Q(n, n); // Process noise covariance
-  Eigen::MatrixXd R(n, n); // Measurement noise covariance
-  Eigen::MatrixXd P(n, n); // Estimate error covariance
+  Eigen::MatrixXd A(n, n); // Matriz representativa do sistema.
+  Eigen::MatrixXd C(n, n); // Matriz de saídas.
+  Eigen::MatrixXd Q(n, n); // Matriz de ruído do modelo.
+  Eigen::MatrixXd R(n, n); // Matriz de ruído da medição.
+  Eigen::MatrixXd P(n, n); // Matriz de covariância estimada no processo.
 
   A << 1, 0, DT, 0, 0, 1, 0, DT, 0, 0, 1, 0, 0, 0, 0, 1;
   Q << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
@@ -169,31 +187,36 @@ Ball::Ball(SSL_DetectionBall &ball) {
   C << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1;
   P << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
 
-  filter = new KalmanFilter(DT, A, C, Q, R, P);
+  filter = new KalmanFilter(DT, A, C, Q, R, P); //Filtro considerando que a medição é mais confiável que o modelo.
 
   Eigen::VectorXd x0(n);
 
   x0 << x, y, 0, 0;
 
-  filter->init(0, x0);
+  filter->init(0, x0); //Inicia o filtro com os valores iniciais.
 
-  Eigen::MatrixXd Q2(n, n); // Process noise covariance
-  Eigen::MatrixXd R2(n, n); // Measurement noise covariance
-  Eigen::MatrixXd P2(n, n); // Estimate error covariance
+  Eigen::MatrixXd Q2(n, n); // Matriz de ruído do modelo.
+  Eigen::MatrixXd R2(n, n); // Matriz de ruído da medição.
+  Eigen::MatrixXd P2(n, n); // Matriz de covariância estimada no processo.
 
   Q2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 10;
   R2 << 10, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
   P2 << .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05, 0, 0, 0, 0, .05;
 
-  filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2);
+  filter2 = new KalmanFilter(DT, A, C, Q2, R2, P2); //Filtro considerando que o modelo é mais confiável que a medição.
 
   Eigen::VectorXd x02(n);
 
   x0 << x, y, 0, 0;
 
-  filter2->init(0, x0);
+  filter2->init(0, x0); //Inicia o filtro com os valores iniciais.
 
 }
+
+/*
+  Atualiza ambos os filtros com os valores obtidos no frame, mas salva como valores de posição
+  da bola os valores gerados pelo filtro que considera a medição mais confiável que o modelo.
+*/
 
 void Ball::update(SSL_DetectionFrame &detection) {
 
@@ -231,6 +254,11 @@ void Ball::update(SSL_DetectionFrame &detection) {
   y = newY;
 
 }
+
+/*
+  Atualiza ambos os filtros com os valores obtidos no frame, mas salva como valores de posição
+  da bola os valores gerados pelo filtro que considera o modelo mais confiável que a medição.
+*/
 
 void Ball::updateByVelocity() {
 

@@ -2,7 +2,9 @@
 #include <stdexcept>
 
 #include "kalman.h"
-
+/*
+  Inicializa todas as matrizes e variaveis do filtro.
+*/
 KalmanFilter::KalmanFilter(
     double dt,
     const Eigen::MatrixXd& A,
@@ -17,6 +19,10 @@ KalmanFilter::KalmanFilter(
   I.setIdentity();
 }
 
+/*
+  Inicializa o vetor de estados, as variáveis de tempo e a matriz de covariância do filtro.
+*/
+
 void KalmanFilter::init(double t0, const Eigen::VectorXd& x0) {
   x_hat = x0;
   P = P0;
@@ -24,6 +30,10 @@ void KalmanFilter::init(double t0, const Eigen::VectorXd& x0) {
   t = t0;
   initialized = true;
 }
+
+/*
+  Atualiza o filtro com base no vetor de leitura que é passado para o filtro, aplicando as equações propostas pelo filtro de Kalman.
+*/
 
 void KalmanFilter::update(const Eigen::VectorXd& y) {
 
@@ -39,6 +49,10 @@ void KalmanFilter::update(const Eigen::VectorXd& y) {
 
   t += dt;
 }
+
+/*
+  Atualiza os valores de velocidade do vetor de estados do filtro.
+*/
 
 void KalmanFilter::updateVelocity(double vx, double vy) {
   x_hat[2] = vx;

@@ -3,10 +3,19 @@
 /*********************************
  * ---- RobotVector Methods ---- *
  *********************************/
-
+/*
+  Salva qual é a cor dos robos a se salvar nesse wrapper.
+*/
 RobotVector::RobotVector(bool color) {
   this->color = color;
 }
+
+/*
+  Recebe o pacote de detecção e verifica para cada robô, a cor é selecionada pelo atributo setado no construtor,
+  se ele já existe no vetor, caso ja exista atualiza com os valores recebidos, caso não exista ele cria, até que
+  o vetor tenha no máximo 6 robôs. Por fim ele verifica na lista de robôs se algum não foi atualizado com dados do
+  frame, caso exista algum, ele o atualiza com o método para atualizar sem dados.
+*/
 
 void RobotVector::updateAll(SSL_DetectionFrame &detection) {
   if(color == 0) { // Blue
@@ -61,6 +70,10 @@ void RobotVector::updateAll(SSL_DetectionFrame &detection) {
   }
 }
 
+/*
+  Para cada robô, printa no arquivo os valores de posição e velocidade.
+*/
+
 void RobotVector::printAll(ofstream &OutFile) {
   for(int i = 0; i < robots.size(); i++) {
     OutFile << std::to_string(robots[i].getID()) + ", " + std::to_string(robots[i].getX()) + ", " + std::to_string(robots[i].getY()) + ", " + std::to_string(robots[i].getVx()) + ", " + std::to_string(robots[i].getVy()) << '\n';
@@ -71,9 +84,19 @@ void RobotVector::printAll(ofstream &OutFile) {
  * ---- BallWrapper Methods ---- *
  *********************************/
 
+/*
+  Constrói a bola e indica que ainda não foi setado algum valor nela.
+*/
+
 BallWrapper::BallWrapper() {
   setted = false;
 }
+
+/*
+  Caso a bola ainda não tenha recebido algum valor, constroi a mesma, caso já tenha, verifica se existem bolas no frame,
+  se existirem bolas, calcula a sua posição com o método que recebe valores, caso não exista, calcula com o método que não
+  recebe valores.
+*/
 
 void BallWrapper::updateBall(SSL_DetectionFrame &detection) {
   if(!setted) {
@@ -91,6 +114,10 @@ void BallWrapper::updateBall(SSL_DetectionFrame &detection) {
     }
   }
 }
+
+/*
+  Printa no arquivo a posição estimada da bola.
+*/
 
 void BallWrapper::printAll(ofstream &OutFile) {
   OutFile << "Ball, " + std::to_string(ball->getX()) + ", " + std::to_string(ball->getY()) + ", " + std::to_string(ball->getVx()) + ", " + std::to_string(ball->getVy()) << '\n';

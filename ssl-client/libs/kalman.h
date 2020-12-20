@@ -12,42 +12,40 @@ public:
       const Eigen::MatrixXd& Q,
       const Eigen::MatrixXd& R,
       const Eigen::MatrixXd& P
-  );
+  ); //Construtor
 
-  void init();
+  void init(); //Inicializador do filtro quando não tem valores iniciais.
 
-  void init(double t0, const Eigen::VectorXd& x0);
+  void init(double t0, const Eigen::VectorXd& x0); //Inicializador do filtro quando tem valores iniciais.
 
-  void update(const Eigen::VectorXd& y);
+  void update(const Eigen::VectorXd& y); //Atualizar o filtro apenas com um novo vetor de leitura.
 
-  void update(const Eigen::VectorXd& y, double dt, const Eigen::MatrixXd A);
+  void updateVelocity(double vx, double vy); //Atualiza os valores de velocidade no vetor de estados do filtro.
 
-  void updateVelocity(double vx, double vy);
-
-  Eigen::VectorXd state() { return x_hat; };
+  Eigen::VectorXd state() { return x_hat; }; //Retorna o vetor de estados do filtro.
   
-  double time() { return t; };
+  double time() { return t; }; //Retorna o momento atual do filtro.
 
 private:
 
-  // Matrices for computation
+  // Matrizes para calculo do filtro.
   Eigen::MatrixXd A, C, Q, R, P, K, P0;
 
-  // System dimensions
-  int m, n;
+  // Dimensões do sistema.
+  int m, n; //
 
-  // Initial and current time
+  // Tempo inicial e tempo atual do filtro.
   double t0, t;
 
-  // Discrete time step
+  // Tempo de discretização do filtro.
   double dt;
 
-  // Is the filter initialized?
+  // Variável para verificação de inicialização do filtro.
   bool initialized;
 
-  // n-size identity
+  // Matriz identidade de tamanho n².
   Eigen::MatrixXd I;
 
-  // Estimated states
+  // Vetores de estados do filtro.
   Eigen::VectorXd x_hat, x_hat_new;
 };

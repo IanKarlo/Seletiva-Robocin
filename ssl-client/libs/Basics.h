@@ -18,22 +18,23 @@
 class Robot {
 
   private:
-    double x;
-    double y;
-    double vx;
-    double vy;
-    bool updated;
-    long long id;
-    KalmanFilter* filter;
-    KalmanFilter* filter2;
+    double x; //Posição x do robô.
+    double y; //Posição y do robô.
+    double vx; //Velocidade do robô no eixo x.
+    double vy; //Velocidade do robô no eixo y.
+    bool updated; //indicador se o robô já foi atualizado, com o intuito de saber se recebeu algum dado de sua posição no frame.
+    long long id;  //ID do robô.
+    KalmanFilter* filter; //Filtro de Kalman considerando que o robô recebeu um dado de posição no frame.
+    KalmanFilter* filter2; //Filtro de Kalman considerando que o robô não recebeu um dado de posição no frame.
 
   public:
-    Robot(SSL_DetectionRobot &robot);
-    long long getID();
-    bool getUpdated();
-    void setUpdated(bool value);
-    void updateByValues(SSL_DetectionRobot &robot);
-    void updateByVelocity();
+    Robot(SSL_DetectionRobot &robot); //Construtor.
+    long long getID(); //Retorna o ID do robô.
+    bool getUpdated(); //Retorna o valor de updated.
+    void setUpdated(bool value);  //Seta o valor de updated.
+    void updateByValues(SSL_DetectionRobot &robot);  //Atualiza os valores do robô com base nos dados recebidos no frame.
+    void updateByVelocity(); //Atualiza os valores do robô com base no modelo criado para o sistema.
+    /* -> Métodos de retorno de valores <- */
     double getX();
     double getVx();
     double getY();
@@ -42,17 +43,18 @@ class Robot {
 
 class Ball {
   private:
-    double x;
-    double y;
-    double vx;
-    double vy;
-    KalmanFilter* filter;
-    KalmanFilter* filter2;
+    double x; //Posição x da bola.
+    double y; //Posição y da bola.
+    double vx; //Velocidade da bola no eixo x.
+    double vy; //Velocidade da bola no eixo y.
+    KalmanFilter* filter; //Filtro de Kalman considerando que a bola recebeu um dado de posição no frame.
+    KalmanFilter* filter2; //Filtro de Kalman considerando que a bola não recebeu um dado de posição no frame.
   
   public:
-    Ball(SSL_DetectionBall &ball);
-    void update(SSL_DetectionFrame &detection);
-    void updateByVelocity();
+    Ball(SSL_DetectionBall &ball); //Construtor
+    void update(SSL_DetectionFrame &detection); //Atualiza os valores da bola com base nos dados recebidos no frame
+    void updateByVelocity(); //Atualiza os valores da bola com base no modelo craido para o sistema
+    /* -> Métodos de retorno de valores <- */
     double getX();
     double getVx();
     double getY();
