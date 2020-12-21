@@ -1,7 +1,7 @@
 // const robots = []
 
 function setup() {
-  createCanvas(1300, 800);
+  createCanvas(1300, 750);
   buildField();
 }
 
@@ -24,7 +24,7 @@ class Ball {
     if(this.x < 0) this.x = 0;
     else if(this.x > 1300) this.x = 1295;
     if(this.y < 0) this.y = 0;
-    else if(this.y > 800) this.y = 795;
+    else if(this.y > 750) this.y = 745;
   }
 
   show() {
@@ -40,7 +40,7 @@ class Robot {
     if(this.x < 0) this.x = 0;
     else if(this.x > 1300) this.x = 1295;
     if(this.y < 0) this.y = 0;
-    else if(this.y > 800) this.y = 795;
+    else if(this.y > 750) this.y = 745;
     this.id = id;
     this.color = color;
   }
@@ -51,7 +51,7 @@ class Robot {
     if(this.x < 0) this.x = 0;
     else if(this.x > 1300) this.x = 1295;
     if(this.y < 0) this.y = 0;
-    else if(this.y > 800) this.y = 795;
+    else if(this.y > 750) this.y = 745;
   }
 
   show() {
